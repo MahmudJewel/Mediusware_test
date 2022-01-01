@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="row" style="text-align: left;">
-                    {% for product in Products %}
+                    {% for product in products %}
                         <div class="col-md-1">{{forloop.counter}}</div>
                         <div class="col-md-2">{{product.title}}</div>
                         <div class="col-md-4">{{product.description}}</div>
@@ -44,4 +44,43 @@
     </div>
     <br> <br>
 </div>
+
+<!-- for paginators  -->
+<div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        Showing {{products.start_index }} to {{products.end_index }} out of
+        {{product_num}}
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: end">
+        {% if products.has_other_pages %}
+        <ul class="pagination">
+          {% if products.has_previous %}
+          <li>
+            <a href="?page={{ products.previous_page_number }}">&laquo;</a>
+          </li>
+          {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+          {% endif %} 
+          {% for i in products.paginator.page_range %} 
+          {% if products.number == i %}
+          <li class="active">
+            <span class="p-2"
+              >{{ i }} <span class="sr-only">(current)</span></span
+            >
+          </li>
+          {% else %}
+          <li><a href="?page={{ i }}" class="p-2">{{ i }}</a></li>
+          {% endif %} 
+          {% endfor %} 
+          {% if products.has_next %}
+          <li><a href="?page={{ products.next_page_number }}">&raquo;</a></li>
+          {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
