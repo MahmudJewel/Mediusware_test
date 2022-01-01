@@ -25,10 +25,10 @@
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul> -->
-              <select class="custom-select btn btn-outline-secondary"
+              <select name="dropdown" class="custom-select btn btn-outline-secondary"
 			style="width:150px;">
             {% for v in variant %}
-		    <option>{{v}}</option>
+		    <option value="{{v}}">{{v}}</option>
 		    <!-- <option>Burger</option>
 		    <option>Ice Cream</option>
 		    <option>Fried Potatoes</option> -->
@@ -42,8 +42,8 @@
                 <div class="col-md-4"></div> -->
                 <div class="input-group">
                     <div class="input-group-text" id="btnGroupAddon">Price Range</div>
-                    <input type="text" class="form-control" placeholder="From" aria-label="Input group example" aria-describedby="btnGroupAddon">
-                    <input type="text" class="form-control" placeholder="To" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                    <input name="from" type="number" class="form-control" placeholder="From" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                    <input name="to" type="number" class="form-control" placeholder="To" aria-label="Input group example" aria-describedby="btnGroupAddon">
                   </div>
             </div>
         </div>
