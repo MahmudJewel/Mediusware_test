@@ -1,3 +1,44 @@
 {% extends 'base.html' %} {% block content %}
-hello
+<div class="container text-center"> <h1>Table-Practice</h1></div>
+<br><br>
+<div class="container">
+    <div class="row">filter options</div>
+
+    <div class="row">
+        <div class="col-md-12 table-responsive border-primary">
+            <table class="table table-bordered table-striped text-center table-hover">
+                <h3 class="table-title text-primary"> <a href="#">Products</a> </h3>
+                <thead style="text-align: left;">
+                    <tr>
+                        <th >#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>variant</th>
+                        <th>p</th>
+                        <th>st</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody style="text-align: left;">
+                    {% for product in Products %}
+                    <tr>
+                        <td >1</td>
+                        <td>{{product.title}}</td>
+                        <td>{{product.description}}</td>
+                        {% for p in product.productvariantprice_set.all %}
+                        <td>{{p.product_variant_one}}/{{p.product_variant_two}}</td>
+                        <td>{{p.price}}</td>
+                        <td> {{p.stock}}</td>
+                        {% endfor %}
+                        <td> <a href="#" class="btn btn-success">Edit</a> </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+    <br> <br>
+</div>
 {% endblock %}

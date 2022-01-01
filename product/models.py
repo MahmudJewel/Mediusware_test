@@ -45,5 +45,5 @@ class ProductVariantPrice(models.Model):
     stock = models.FloatField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     
-    def __str__(self):
-        return self.price
+    # def __str__(self):
+    #     return str(self.price)
