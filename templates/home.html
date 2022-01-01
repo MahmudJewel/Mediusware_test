@@ -1,13 +1,63 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container text-center"> <h1>Table-Practice</h1></div>
 <br><br>
 <div class="container">
-    <div class="row">filter options</div>
+    <div class="row">
+        <h3 class="table-title text-primary"> <a href="#">Products</a> </h3>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <form class="d-flex" method="get" action="/search">
+            {% csrf_token %}
+            <div class="col-md-2 me-auto">
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Product Title"
+              aria-label="Search"
+              name="inputTitle"
+            />
+        </div>
+        <div class="col-md-2 m-auto dropdown ">
+            <!-- <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown button
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul> -->
+              <select class="custom-select btn btn-outline-secondary"
+			style="width:150px;">
+            {% for v in variant %}
+		    <option>{{v}}</option>
+		    <!-- <option>Burger</option>
+		    <option>Ice Cream</option>
+		    <option>Fried Potatoes</option> -->
+            {% endfor %}
+	</select>
+        </div>
+        <div class="col-md-3 m-auto">
+            <div class="row">
+                <!-- <div class="col-md-4">Price-Range</div>
+                <div class="col-md-4"><input class="form-control" type="text" placeholder="From"> </div>
+                <div class="col-md-4"></div> -->
+                <div class="input-group">
+                    <div class="input-group-text" id="btnGroupAddon">Price Range</div>
+                    <input type="text" class="form-control" placeholder="From" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                    <input type="text" class="form-control" placeholder="To" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                  </div>
+            </div>
+        </div>
+        <div class="col-md-1 m-auto">date</div>
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+          </form>
+        
+    </div>
+    <br>
 
     <div class="row">
         <div class="col-md-12 table-responsive border-primary">
             <table class="table table-bordered table-striped text-center table-hover">
-                <h3 class="table-title text-primary"> <a href="#">Products</a> </h3>
+                
                 <div class="row" style="text-align: left;">
                         <div class="col-md-1"> <b>#</b></div>
                         <div class="col-md-2"><b>Title</b> </div>
@@ -52,35 +102,32 @@
         Showing {{products.start_index }} to {{products.end_index }} out of
         {{product_num}}
       </div>
+
       <div class="col-md-6" style="display: flex; justify-content: end">
-        {% if products.has_other_pages %}
-        <ul class="pagination">
-          {% if products.has_previous %}
-          <li>
-            <a href="?page={{ products.previous_page_number }}">&laquo;</a>
-          </li>
-          {% else %}
-          <li class="disabled"><span>&laquo;</span></li>
-          {% endif %} 
-          {% for i in products.paginator.page_range %} 
-          {% if products.number == i %}
-          <li class="active">
-            <span class="p-2"
-              >{{ i }} <span class="sr-only">(current)</span></span
-            >
-          </li>
-          {% else %}
-          <li><a href="?page={{ i }}" class="p-2">{{ i }}</a></li>
-          {% endif %} 
-          {% endfor %} 
-          {% if products.has_next %}
-          <li><a href="?page={{ products.next_page_number }}">&raquo;</a></li>
-          {% else %}
-          <li class="disabled"><span>&raquo;</span></li>
+          {% if products.has_other_pages %}
+          <div class="btn-group me-2" role="group" aria-label="First group">
+            {% if products.has_previous %}
+            <button type="button" class="btn btn-outline-primary"><a href="?page={{ products.previous_page_number }}">&laquo;</a></button>
+              
+            
+            {% else %}
+            <button type="button" class="btn btn-outline-primary disabled"><span>&laquo;</span></button>
+            {% endif %} 
+            {% for i in products.paginator.page_range %} 
+            {% if products.number == i %}
+            <button type="button" class="btn btn-outline-primary active">{{ i }}<span class="sr-only">(current)</span></button>
+            {% else %}
+            <button type="button" class="btn btn-outline-primary"><a href="?page={{ i }}" class="p-2">{{ i }}</a></button>
+            {% endif %} 
+            {% endfor %} 
+            {% if products.has_next %}
+            <button type="button" class="btn btn-outline-primary"><a href="?page={{ products.next_page_number }}">&raquo;</a></button>
+            {% else %}
+            <button type="button" class="btn btn-outline-primary disabled"><span>&raquo;</span></button>
+            {% endif %}
+        </div>
           {% endif %}
-        </ul>
-        {% endif %}
-      </div>
+        </div>
     </div>
   </div>
 {% endblock %}

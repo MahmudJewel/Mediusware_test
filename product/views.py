@@ -15,6 +15,9 @@ def home_view(request):
     products=models.Product.objects.all()
     product_num = products.count()
     
+    # for dropdown variant 
+    variant = models.Variant.objects.all()
+    
     # for paginations 
     page = request.GET.get('page', 1)
     paginator = Paginator(products, 2)
@@ -27,5 +30,16 @@ def home_view(request):
     context={
         'products':products,
         'product_num':product_num,
+        'variant':variant
     }
     return render(request, 'home.html',context)
+
+def search_view(request):
+    if request.method == 'GET':
+        search = request.GET.get('inputTitle')
+        # print(f"search : {search}")
+        searchItem = models.Product.objects.filter(title__contains = search)
+        context = {
+            'products':searchItem,
+        }
+    return render(request, 'search.html', context)

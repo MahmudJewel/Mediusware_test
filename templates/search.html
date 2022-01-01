@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+    <br><br><br>
+    <div class="row"><h2 class="text-center">Search result</h2></div>
+    <br>
+    <div class="row" style="text-align: left;">
+        {% for product in products %}
+            <div class="col-md-1">{{forloop.counter}}</div>
+            <div class="col-md-2">{{product.title}}</div>
+            <div class="col-md-4">{{product.description}}</div>
+            <!-- backward filter from parent to child  -->
+            
+            <div class="col-md-4">
+                <div class="row">
+                    {% for p in product.productvariantprice_set.all %}
+                    <div class="col-md-4">{{p.product_variant_one.variant}}/{{p.product_variant_two.variant}}/{{p.product_variant_three.variant}}</div>
+                    <div class="col-md-4">Price: {{p.price}}</div>
+                    <div class="col-md-4">InStock: {{p.stock}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="col-md-1"><a href="#" class="btn btn-success">Edit</a></div>
+            <hr>
+            {% endfor %}
+    </div>
+    
+</table>
+</div>
+</div>
+<br> <br>
+</div>
+{% endblock %}
