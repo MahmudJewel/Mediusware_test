@@ -2,8 +2,10 @@ from django.shortcuts import render,redirect
 from product import models
 # for paginations 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.forms import inlineformset_factory
 from product import forms
+from django.contrib import messages
+
 
 # Create your views here.
 def home_view(request):
@@ -78,14 +80,39 @@ def add_product_view(request):
 
 # edit product 
 def edit_product(request, pk):
+    # product & related form 
     product = models.Product.objects.get(id=pk)
     productForm = forms.productForm(instance=product)
+    
+    # get child list of product & form 
+    # ProductVariantPrice = models.ProductVariantPrice.objects.filter(product=product)
+    # ProductVariantPriceForm = forms.ProductVariantPriceForm(instance=ProductVariantPrice[0])
+    # print(f"ProductVariantPriceForm: {ProductVariantPriceForm.price()}")
+    
+    # author's book list using inline form 
+    # inline form 
+    BookFormSet = inlineformset_factory(models.Product, models.ProductVariantPrice,
+                                        fk_name='product',
+                                        fields=('product_variant_one','product_variant_two','product_variant_three','price','stock'),
+                                        max_num=1)
+    formset = BookFormSet(instance=product)
+    
     if request.method=='POST':
         productForm = forms.productForm( request.POST, request.FILES, instance=product)
-        if productForm.is_valid():
+        formset = BookFormSet(request.POST, request.FILES, instance=product)
+        if productForm.is_valid() and formset.is_valid():
             productForm.save()
+            formset.save(commit=False)
+            formset.instance=product
+            formset.save()
+            # for form in formset:
+            #     form.instance=product
+            #     form.save()
+            messages.success(request, f"Product has been updated")
             return redirect('home')
     context={
-        'productForm':productForm
+        'productForm':productForm,
+        'formset':formset,
+        
     }
     return render(request, 'editProduct.html',context)
