@@ -1,3 +1,56 @@
-{% extends 'base.html' %} {% block content %}
-{{productForm.as_p}}
+{% extends 'base.html' %} {% load widget_tweaks %} {% block content %}
+<head>
+    <!-- dropzon css for drag and drop image  -->
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+</head>
+<div class="container">
+    <br><br>
+    <div class="row">
+        
+        <form method="POST" autocomplete="off" enctype="multipart/form-data" class="border border-primary">
+            <h4>Create Product</h4>
+            <!-- left side  -->
+            <div class="col-md-6">
+                <div class="shadow p-3">
+                <!-- product part  -->
+                {% for field in productForm %}
+                <p>
+                    <!-- level & textarea -->
+                    {{ field.label_tag }}<br>
+                    <div class="form-group">
+                      {% render_field field|attr:'required:true'  class="form-control item" %}
+                    </div>
+                    <!-- help text or suggestions -->
+                    {% if field.help_text %}
+                      <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+          
+                    <!-- Error message -->
+                    {% for error in field.errors %}
+                      <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                  </p>
+                  {% endfor %}
+                </div>
+                <br>
+
+                  <!-- image field  -->
+                  <div class="shadow p-3" >
+                      <h3>Media</h3>
+                      <div class="fallback dropzone">
+                        <input name="file" type="file" multiple />
+                      </div>
+                  </div>
+            </div>
+            <!-- right side  -->
+            <div class="col-md-6"></div>
+            <br>
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-secondary" >Cancel</button>
+            <br> <br>
+        </form>
+    </div>
+    <!-- dropzone js  -->
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+</div>
 {% endblock %}

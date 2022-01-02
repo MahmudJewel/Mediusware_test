@@ -22,7 +22,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    file_path = models.URLField()
+    file_path = models.ImageField( upload_to='product/', null=True, blank=True)
 
 
 class ProductVariant(models.Model):

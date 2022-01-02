@@ -14,5 +14,5 @@ class ProductImageForm(forms.ModelForm):
 class ProductImageForm(forms.ModelForm):
     class Meta(object):
         model = models.ProductImage
-        fields = '__all__'
+        fields = ['file_path']
         

@@ -67,7 +67,9 @@ def search_view(request):
 # add product page 
 def add_product_view(request):
     productForm = forms.productForm
+    ProductImageForm = forms.ProductImageForm
     context={
         'productForm':productForm,
+        'ProductImageForm' : ProductImageForm,
     }
     return render(request, 'productAdd.html', context)
