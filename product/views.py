@@ -70,23 +70,33 @@ def search_view(request):
 def add_product_view(request):
     productForm = forms.productForm
     ProductImageForm = forms.ProductImageForm
-    ProductVariantPriceForm = forms.ProductVariantPriceForm
+    # ProductVariantPriceForm = forms.ProductVariantPriceForm
+    ProductFormSet = inlineformset_factory(models.Product, models.ProductVariantPrice,
+                                        fk_name='product',
+                                        fields=('product_variant_one','product_variant_two','product_variant_three','price','stock'),
+                                        extra=2)
+    formset = ProductFormSet()
     if request.method=='POST':
         productForm = forms.productForm(request.POST, request.FILES)
-        ProductVariantPriceForm = forms.ProductVariantPriceForm(request.POST, request.FILES)
+        # ProductVariantPriceForm = forms.ProductVariantPriceForm(request.POST, request.FILES)
+        formset = ProductFormSet(request.POST, request.FILES)
         # username=productForm.cleaned_data.get('title')
         # print(f"instance name = {username}")
-        if productForm.is_valid() and ProductVariantPriceForm.is_valid():
+        if productForm.is_valid() and formset.is_valid():
             product=productForm.save()
-            pd=ProductVariantPriceForm.save(commit=False)
-            pd.product=product
-            pd.save()
+            pd=formset.save(commit=False)
+            for p in pd:
+                p.product=product
+                p.save()
+            # pd.product=product
+            # pd.save()
             messages.success(request, f"Product has been added")
             return redirect('home')
     context={
         'productForm':productForm,
         'ProductImageForm' : ProductImageForm,
-        'ProductVariantPriceForm':ProductVariantPriceForm,
+        # 'ProductVariantPriceForm':ProductVariantPriceForm,
+        'formset':formset,
     }
     return render(request, 'productAdd.html', context)
 
@@ -106,7 +116,7 @@ def edit_product(request, pk):
     BookFormSet = inlineformset_factory(models.Product, models.ProductVariantPrice,
                                         fk_name='product',
                                         fields=('product_variant_one','product_variant_two','product_variant_three','price','stock'),
-                                        max_num=1)
+                                        extra=2)
     formset = BookFormSet(instance=product)
     
     if request.method=='POST':
