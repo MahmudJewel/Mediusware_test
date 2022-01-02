@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from product import models
 # for paginations 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -75,3 +75,17 @@ def add_product_view(request):
         'ProductVariantPriceForm':ProductVariantPriceForm,
     }
     return render(request, 'productAdd.html', context)
+
+# edit product 
+def edit_product(request, pk):
+    product = models.Product.objects.get(id=pk)
+    productForm = forms.productForm(instance=product)
+    if request.method=='POST':
+        productForm = forms.productForm( request.POST, request.FILES, instance=product)
+        if productForm.is_valid():
+            productForm.save()
+            return redirect('home')
+    context={
+        'productForm':productForm
+    }
+    return render(request, 'editProduct.html',context)
