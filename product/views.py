@@ -68,8 +68,10 @@ def search_view(request):
 def add_product_view(request):
     productForm = forms.productForm
     ProductImageForm = forms.ProductImageForm
+    ProductVariantPriceForm = forms.ProductVariantPriceForm
     context={
         'productForm':productForm,
         'ProductImageForm' : ProductImageForm,
+        'ProductVariantPriceForm':ProductVariantPriceForm,
     }
     return render(request, 'productAdd.html', context)

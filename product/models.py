@@ -31,7 +31,7 @@ class ProductVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.variant_title
+        return self.variant.title
 
 
 class ProductVariantPrice(models.Model):

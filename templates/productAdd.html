@@ -5,9 +5,8 @@
 </head>
 <div class="container">
     <br><br>
+    <form method="POST" autocomplete="off" enctype="multipart/form-data" class="border border-primary"></form>
     <div class="row">
-        
-        <form method="POST" autocomplete="off" enctype="multipart/form-data" class="border border-primary">
             <h4>Create Product</h4>
             <!-- left side  -->
             <div class="col-md-6">
@@ -43,13 +42,23 @@
                   </div>
             </div>
             <!-- right side  -->
-            <div class="col-md-6"></div>
-            <br>
-            <button class="btn btn-primary" type="submit">Save</button>
-            <button class="btn btn-secondary" >Cancel</button>
+            <div class="col-md-6 shadow">
+              <div>
+                {{ProductVariantPriceForm.as_p}}
+              </div>
+            </div>
+            <br><br>
+            <div class="row">
+              <div class="col-md-3 m-3">
+                <button class="btn btn-primary" type="submit">Save</button>
+              <a href="/" class="btn btn-secondary" >Cancel</a>
+              </div>
+            </div>
+            
             <br> <br>
-        </form>
+        
     </div>
+  </form>
     <!-- dropzone js  -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 </div>
