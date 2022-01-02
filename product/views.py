@@ -2,8 +2,8 @@ from django.shortcuts import render
 from product import models
 # for paginations 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-# for complex query 
-from django.db.models import Q
+
+from product import forms
 
 # Create your views here.
 def home_view(request):
@@ -63,3 +63,11 @@ def search_view(request):
             'products':searchItem,
         }
     return render(request, 'search.html', context)
+
+# add product page 
+def add_product_view(request):
+    productForm = forms.productForm
+    context={
+        'productForm':productForm,
+    }
+    return render(request, 'productAdd.html', context)
