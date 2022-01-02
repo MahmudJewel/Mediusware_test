@@ -14,5 +14,5 @@ class ProductImageForm(forms.ModelForm):
 class ProductVariantPriceForm(forms.ModelForm):
     class Meta(object):
         model = models.ProductVariantPrice
-        fields = '__all__'
+        fields = ['product_variant_one','product_variant_two','product_variant_three','price','stock']
         

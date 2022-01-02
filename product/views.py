@@ -71,6 +71,18 @@ def add_product_view(request):
     productForm = forms.productForm
     ProductImageForm = forms.ProductImageForm
     ProductVariantPriceForm = forms.ProductVariantPriceForm
+    if request.method=='POST':
+        productForm = forms.productForm(request.POST, request.FILES)
+        ProductVariantPriceForm = forms.ProductVariantPriceForm(request.POST, request.FILES)
+        # username=productForm.cleaned_data.get('title')
+        # print(f"instance name = {username}")
+        if productForm.is_valid() and ProductVariantPriceForm.is_valid():
+            product=productForm.save()
+            pd=ProductVariantPriceForm.save(commit=False)
+            pd.product=product
+            pd.save()
+            messages.success(request, f"Product has been added")
+            return redirect('home')
     context={
         'productForm':productForm,
         'ProductImageForm' : ProductImageForm,
